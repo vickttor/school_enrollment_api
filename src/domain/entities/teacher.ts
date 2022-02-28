@@ -18,8 +18,8 @@ export class Teacher extends Entity<TeacherProps> {
 
   // Static because the method need to be called without instantiate the class
   static create(Props: TeacherProps) {
-    const student = new Teacher(Props);
+    const teacher = new Teacher(Props);
 
-    return student;
+    return teacher;
   }
 }
