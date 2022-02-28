@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-export class Entity<T> {
+export abstract class Entity<T> {
   public id: string;
   public props: T;
 
