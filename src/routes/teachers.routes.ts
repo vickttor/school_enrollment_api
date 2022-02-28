@@ -15,18 +15,24 @@ const createTeacherController = new TeacherController();
 teacherRoutes.post("/", async (req, res) => {
   const createTeacher = new CreateTeacherUseCase(createTeacherController);
 
-  const result = await createTeacher.execute(req.body);
-
-  res.json({ message: result }).end();
+  try {
+    const result = await createTeacher.execute(req.body);
+    res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 // GET ALL TEACHER
 teacherRoutes.get("/", async (_, res) => {
   const readTeacher = new ReadTeacherUseCase(createTeacherController);
 
-  const result = await readTeacher.execute();
-
-  res.json(result).end();
+  try {
+    const result = await readTeacher.execute();
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 // GET SPECIFIC TEACHER
@@ -35,9 +41,12 @@ teacherRoutes.get("/:cpf", async (req, res) => {
 
   const { cpf } = req.params;
 
-  const result = await readTeacher.execute("cpf", cpf);
-
-  res.json(result).end();
+  try {
+    const result = await readTeacher.execute("cpf", cpf);
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 //UPDATE TEACHER
@@ -46,20 +55,26 @@ teacherRoutes.put("/:cpf", async (req, res) => {
 
   const { cpf } = req.params;
 
-  const result = await updateTeacher.execute(req.body, cpf);
-
-  return res.json(result).end();
+  try {
+    const result = await updateTeacher.execute(req.body, cpf);
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 //DELETE TEACHER
 teacherRoutes.delete("/:cpf", async (req, res) => {
-  const deleteStudent = new DeleteTeacherUseCase(createTeacherController);
+  const deleteTeacher = new DeleteTeacherUseCase(createTeacherController);
 
   const { cpf } = req.params;
 
-  const result = await deleteStudent.execute(cpf);
-
-  return res.json(result).end();
+  try {
+    const result = await deleteTeacher.execute(cpf);
+    return res.json({ message: result.message, status: result.status }).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 export { teacherRoutes };

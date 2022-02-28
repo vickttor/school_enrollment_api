@@ -15,18 +15,24 @@ const createStudentController = new StudentController();
 studentRoutes.post("/", async (req, res) => {
   const createStudent = new CreateStudentUseCase(createStudentController);
 
-  const result = await createStudent.execute(req.body);
-
-  res.json({ message: result }).end();
+  try {
+    const result = await createStudent.execute(req.body);
+    res.json({ message: result.message }).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 // GET ALL USERS
 studentRoutes.get("/", async (_, res) => {
   const readStudent = new ReadStudentUseCase(createStudentController);
 
-  const result = await readStudent.execute();
-
-  res.json(result).end();
+  try {
+    const result = await readStudent.execute();
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 // GET SPECIFIC USER
@@ -35,9 +41,12 @@ studentRoutes.get("/:cpf", async (req, res) => {
 
   const { cpf } = req.params;
 
-  const result = await readStudent.execute("cpf", cpf);
-
-  res.json(result).end();
+  try {
+    const result = await readStudent.execute("cpf", cpf);
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 //UPDATE
@@ -45,10 +54,12 @@ studentRoutes.put("/:cpf", async (req, res) => {
   const updateStudent = new UpdateStudentUseCase(createStudentController);
 
   const { cpf } = req.params;
-
-  const result = await updateStudent.execute(req.body, cpf);
-
-  return res.json(result).end();
+  try {
+    const result = await updateStudent.execute(req.body, cpf);
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 //DELETE
@@ -57,9 +68,12 @@ studentRoutes.delete("/:cpf", async (req, res) => {
 
   const { cpf } = req.params;
 
-  const result = await deleteStudent.execute(cpf);
-
-  return res.json(result).end();
+  try {
+    const result = await deleteStudent.execute(cpf);
+    return res.json({ message: result.message, status: result.status }).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 export { studentRoutes };

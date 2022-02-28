@@ -15,18 +15,24 @@ const createCourseController = new CourseController();
 courseRoutes.post("/", async (req, res) => {
   const createCourse = new CreateCourseUseCase(createCourseController);
 
-  const result = await createCourse.execute(req.body);
-
-  res.json({ message: result }).end();
+  try {
+    const result = await createCourse.execute(req.body);
+    res.json({ message: result.message }).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 // GET ALL Courses
 courseRoutes.get("/", async (_, res) => {
   const readCourse = new ReadCourseUseCase(createCourseController);
 
-  const result = await readCourse.execute();
-
-  res.json(result).end();
+  try {
+    const result = await readCourse.execute();
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 // GET SPECIFIC Course
@@ -35,9 +41,12 @@ courseRoutes.get("/:id", async (req, res) => {
 
   const { id } = req.params;
 
-  const result = await readCourse.execute(id);
-
-  res.json(result).end();
+  try {
+    const result = await readCourse.execute(id);
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 //UPDATE
@@ -46,9 +55,12 @@ courseRoutes.put("/:id", async (req, res) => {
 
   const { id } = req.params;
 
-  const result = await updateCouse.execute(req.body, id);
-
-  return res.json(result).end();
+  try {
+    const result = await updateCouse.execute(req.body, id);
+    return res.json(result.message).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 //DELETE
@@ -57,9 +69,12 @@ courseRoutes.delete("/:id", async (req, res) => {
 
   const { id } = req.params;
 
-  const result = await deleteCourse.execute(id);
-
-  return res.json(result).end();
+  try {
+    const result = await deleteCourse.execute(id);
+    return res.json({ message: result.message, status: result.status }).end();
+  } catch (error: any) {
+    res.json({ error: error?.message });
+  }
 });
 
 export { courseRoutes };
