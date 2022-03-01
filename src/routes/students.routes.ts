@@ -17,9 +17,9 @@ studentRoutes.post("/", async (req, res) => {
 
   try {
     const result = await createStudent.execute(req.body);
-    res.json({ message: result.message }).send();
+    res.json({ message: result.message });
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
@@ -29,9 +29,9 @@ studentRoutes.get("/", async (_, res) => {
 
   try {
     const result = await readStudent.execute();
-    return res.status(200).json(result.message).send();
+    return res.json(result.message);
   } catch (error: any) {
-    res.status(404).json({ error: error?.message }).send();
+    res.json({ error: error });
   }
 });
 
@@ -43,9 +43,9 @@ studentRoutes.get("/:cpf", async (req, res) => {
 
   try {
     const result = await readStudent.execute("cpf", cpf);
-    return res.json(result.message).send();
+    return res.json(result.message);
   } catch (error: any) {
-    res.status(404).json({ error: error }).send();
+    res.json({ error: error });
   }
 });
 
@@ -56,9 +56,9 @@ studentRoutes.put("/:cpf", async (req, res) => {
   const { cpf } = req.params;
   try {
     const result = await updateStudent.execute(req.body, cpf);
-    return res.json(result.message).send();
+    return res.json(result.message);
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
@@ -70,9 +70,9 @@ studentRoutes.delete("/:cpf", async (req, res) => {
 
   try {
     const result = await deleteStudent.execute(cpf);
-    return res.json({ message: result.message, status: result.status }).send();
+    return res.json({ message: result.message });
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
