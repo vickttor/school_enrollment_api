@@ -6,7 +6,7 @@ type TeacherProps = {
   phone: string;
   email: string;
   gender: string;
-  courses_id: Array<string>;
+  course_id: string;
   cpf: string;
 };
 
