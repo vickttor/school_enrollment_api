@@ -93,10 +93,17 @@ export class TeacherController implements TeacherRepository {
     newData: Teacher
   ): Promise<TeacherSupaBaseResponse> {
     if (cpf.length === 11 && newData && newData.props.cpf.length === 11) {
+      // Verify if there's some students with the same CPF
       const theresSomeStudent = await supabase
         .from("students")
         .select()
         .eq("cpf", newData.props.cpf);
+
+      // Get the title course in databse by filtering id
+      const title_course: titleCourseRequest = await supabase
+        .from("courses")
+        .select("title_course")
+        .eq("id", newData.props.course_id);
 
       if (theresSomeStudent.error || theresSomeStudent.data.length === 0) {
         const result = await supabase
@@ -109,6 +116,9 @@ export class TeacherController implements TeacherRepository {
             cpf: newData.props.cpf,
             gender: newData.props.gender,
             course_id: newData.props.course_id,
+            title_course: title_course.data
+              ?.map((data) => data.title_course)
+              .join(""),
           })
           .match({ cpf: cpf });
 
