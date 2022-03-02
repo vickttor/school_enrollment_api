@@ -1,9 +1,13 @@
+// Entity
 import { Course } from "../../../domain/entities/course";
+
+// Types and Interfaces
 import {
   CourseRepository,
   CourseSupaBaseResponse,
 } from "../../repositories/IcoursesRepository";
 
+// Supabase Client
 import { supabase } from "../../../utils/connect_db";
 
 export class CourseController implements CourseRepository {
@@ -46,13 +50,14 @@ export class CourseController implements CourseRepository {
 
     const result = await supabase.from("courses").select();
 
-    if (result.error || result.data.length === 0) {
+    if (result.error) {
       throw new Error("There's no course yet");
     }
 
     return { message: result };
   }
 
+  // Update functionality
   async update(id: string, newData: Course): Promise<CourseSupaBaseResponse> {
     if (id && newData && id.length !== 0) {
       const result = await supabase
@@ -76,6 +81,7 @@ export class CourseController implements CourseRepository {
     throw new Error("Verify the ID and newData");
   }
 
+  // Delete functionality
   async delete(id: string): Promise<CourseSupaBaseResponse> {
     if (id && id.length !== 0) {
       const result = await supabase.from("courses").delete().match({ id: id });
