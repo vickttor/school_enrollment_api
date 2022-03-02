@@ -17,7 +17,7 @@ teacherRoutes.post("/", async (req, res) => {
 
   try {
     const result = await createTeacher.execute(req.body);
-    res.json(result.message);
+    res.json(result.message?.data);
   } catch (error: any) {
     res.json({ error: error?.message });
   }
@@ -29,7 +29,7 @@ teacherRoutes.get("/", async (_, res) => {
 
   try {
     const result = await readTeacher.execute();
-    return res.json(result.message);
+    return res.json(result.message?.data);
   } catch (error: any) {
     res.json({ error: error?.message });
   }
@@ -43,7 +43,7 @@ teacherRoutes.get("/:cpf", async (req, res) => {
 
   try {
     const result = await readTeacher.execute("cpf", cpf);
-    return res.json(result.message);
+    return res.json(result.message?.data);
   } catch (error: any) {
     res.json({ error: error?.message });
   }
@@ -57,7 +57,7 @@ teacherRoutes.put("/:cpf", async (req, res) => {
 
   try {
     const result = await updateTeacher.execute(req.body, cpf);
-    return res.json(result.message);
+    return res.json(result.message?.data);
   } catch (error: any) {
     res.json({ error: error?.message });
   }
@@ -71,7 +71,7 @@ teacherRoutes.delete("/:cpf", async (req, res) => {
 
   try {
     const result = await deleteTeacher.execute(cpf);
-    return res.json({ message: result.message, status: result.status });
+    return res.json(result.message?.data);
   } catch (error: any) {
     res.json({ error: error?.message });
   }

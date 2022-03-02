@@ -17,9 +17,9 @@ courseRoutes.post("/", async (req, res) => {
 
   try {
     const result = await createCourse.execute(req.body);
-    res.json({ message: result.message }).send();
+    res.json(result.message?.data);
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
@@ -29,9 +29,9 @@ courseRoutes.get("/", async (_, res) => {
 
   try {
     const result = await readCourse.execute();
-    return res.json(result.message).send();
+    return res.json(result.message?.data);
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
@@ -43,9 +43,9 @@ courseRoutes.get("/:id", async (req, res) => {
 
   try {
     const result = await readCourse.execute(id);
-    return res.json(result.message).send();
+    return res.json(result.message?.data);
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
@@ -57,9 +57,9 @@ courseRoutes.put("/:id", async (req, res) => {
 
   try {
     const result = await updateCouse.execute(req.body, id);
-    return res.json(result.message).send();
+    return res.json(result.message?.data);
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
@@ -71,9 +71,9 @@ courseRoutes.delete("/:id", async (req, res) => {
 
   try {
     const result = await deleteCourse.execute(id);
-    return res.json({ message: result.message, status: result.status }).send();
+    return res.json(result.message?.data);
   } catch (error: any) {
-    res.json({ error: error?.message }).send();
+    res.json({ error: error?.message });
   }
 });
 
