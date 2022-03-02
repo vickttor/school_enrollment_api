@@ -1,13 +1,14 @@
 {
   "name": "resfulapi_ax4b",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.ts",
   "repository": "git@github.com:VictorSilva15/resfulapi_ax4b.git",
   "author": "Victor Silva <victor.silvaPC@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "build": "tsc",
+    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules .",
+    "start": "node dist/server.js",
+    "build": "tsc --build",
     "commit": "git-cz",
     "test": "jest"
   },
