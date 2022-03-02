@@ -1,31 +1,48 @@
+// Entity
 import { Teacher } from "../../../domain/entities/teacher";
+
+// Types and Interfaces
 import {
   TeacherSupaBaseResponse,
   TeacherRepository,
 } from "../../repositories/IteacherRepository";
 
+// Supabase client
 import { supabase } from "../../../utils/connect_db";
+
+// title course type
+import { titleCourseRequest } from "../Student/studentController";
 
 export class TeacherController implements TeacherRepository {
   // Save functionality
   async save(teacher: Teacher): Promise<TeacherSupaBaseResponse> {
+    // Verify if there's some students with the same CPF
     const theresSomeStudent = await supabase
       .from("students")
       .select()
       .eq("cpf", teacher.props.cpf);
+
+    // Get the title course in databse by filtering id
+    const title_course: titleCourseRequest = await supabase
+      .from("courses")
+      .select("title_course")
+      .eq("id", teacher.props.course_id);
 
     if (theresSomeStudent.error || theresSomeStudent.data.length === 0) {
       if (teacher.props.cpf.length === 11) {
         const result = await supabase.from("teachers").insert([
           {
             id: teacher.id,
-            name: teacher.props.full_name,
+            full_name: teacher.props.full_name,
             birthday: teacher.props.birthday,
             email: teacher.props.email,
             phone: teacher.props.phone,
             cpf: teacher.props.cpf,
             gender: teacher.props.gender,
-            courses_id: teacher.props.courses_id,
+            course_id: teacher.props.course_id,
+            title_course: title_course.data
+              ?.map((data) => data.title_course)
+              .join(""),
           },
         ]);
 
@@ -54,7 +71,7 @@ export class TeacherController implements TeacherRepository {
         .select()
         .eq(`${field}`, identifier);
 
-      if (result.error || result.data.length === 0) {
+      if (result.error) {
         throw new Error("There's no teacher with this identifier");
       }
 
@@ -63,7 +80,7 @@ export class TeacherController implements TeacherRepository {
 
     const result = await supabase.from("teachers").select();
 
-    if (result.error || result.data.length === 0) {
+    if (result.error) {
       throw new Error("There's no teachers");
     }
 
@@ -85,13 +102,13 @@ export class TeacherController implements TeacherRepository {
         const result = await supabase
           .from("teachers")
           .update({
-            name: newData.props.full_name,
+            full_name: newData.props.full_name,
             birthday: newData.props.birthday,
             email: newData.props.email,
             phone: newData.props.phone,
             cpf: newData.props.cpf,
             gender: newData.props.gender,
-            courses_id: newData.props.courses_id,
+            course_id: newData.props.course_id,
           })
           .match({ cpf: cpf });
 
