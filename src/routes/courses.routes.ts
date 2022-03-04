@@ -11,7 +11,6 @@ const courseRoutes = Router();
 // student controller
 const createCourseController = new CourseController();
 
-// POST
 courseRoutes.post("/", async (req, res) => {
   const createCourse = new CreateCourseUseCase(createCourseController);
 
