@@ -1,4 +1,4 @@
-import { Entity } from "../../core/entity/Entity";
+import { Entity } from "../../core/domain/Entity";
 
 type StudentProps = {
   full_name: string;

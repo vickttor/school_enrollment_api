@@ -1,4 +1,4 @@
-import { Entity } from "../../core/entity/Entity";
+import { Entity } from "../../core/domain/Entity";
 
 type CourseProps = {
   title_course: string;
