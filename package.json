@@ -2,7 +2,7 @@
   "name": "resfulapi_ax4b",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "repository": "git@github.com:VictorSilva15/resfulapi_ax4b.git",
+  "repository": "git@github.com:vickttor/school_enrollment_api.git",
   "author": "Victor Silva <victor.silvaPC@hotmail.com>",
   "license": "MIT",
   "scripts": {
